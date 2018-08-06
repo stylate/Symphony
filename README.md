@@ -6,4 +6,7 @@ Updates:
 ## 6/11/18:
     * Initialized repository.
 
-
+Resources:
+https://codepen.io/vidark/pen/mmrjgK
+https://codepen.io/prakhar625/pen/zddKRj
+https://www.clicktorelease.com/blog/vertex-displacement-noise-3d-webgl-glsl-three-js/
