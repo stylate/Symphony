@@ -11,3 +11,6 @@
 	* https://codepen.io/prakhar625/pen/zddKRj
 	* https://www.clicktorelease.com/blog/vertex-displacement-noise-3d-webgl-glsl-three-js/
 	* http://www.pouet.net/prod.php?which=52761
+
+to-do:
+    - create circle geometry and a unique mesh from shaders
