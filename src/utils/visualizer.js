@@ -1,16 +1,18 @@
-var container, camera, scene, renderer;
+var camera, scene, renderer, controls;
+var group, container;
 var uniforms, vertexShader, fragmentShader;
 var material, geometry, mesh;
-
+var planeGeometry, planeMaterial, plane, plane2;
 
 // init
 function init() {
     // renderer
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
+    // scene
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x000000, 1, 1000 );
     scene.add( new THREE.AmbientLight( 0x222222 ) );
@@ -20,8 +22,29 @@ function init() {
 	scene.add( light );
 
     // camera
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 2500;
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 100;
+    camera.lookAt(scene.position);
+    controls = new THREE.OrbitControls(camera);
+    controls.autoRotate = true;
+    controls.update();
+
+
+    // plane
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 20, 20);
+    planeMaterial = new THREE.MeshLambertMaterial({
+        color: 0xb19cd9,
+        side: THREE.DoubleSide,
+        wireframe: true
+    });
+
+    plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.rotation.x = -0.5 * Math.PI;
+    plane.position.set(0, 40, 0);
+
+    plane2 = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane2.rotation.x = -0.5 * Math.PI;
+    plane2.position.set(0, -40, 0);
 
     // uniforms, shader components
     uniforms = {
@@ -33,16 +56,22 @@ function init() {
     material = new THREE.ShaderMaterial({
         uniforms: uniforms,
         color: 0xb7ff00,
-        flatShading: true,
         wireframe: true
     });
 
     // mesh
-    geometry = new THREE.SphereBufferGeometry( 400, 50, 50 );
+    geometry = new THREE.SphereBufferGeometry( 8, 10, 10 );
     mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
 
-	// postprocessing
+    // processing
+    group = new THREE.Group();
+    group.add(plane);
+    group.add(plane2);
+    group.add(mesh);
+    scene.add(group);
+    scene.add(camera);
+
+    // postprocessing
 	/*composer = new THREE.EffectComposer( renderer );
 	composer.addPass( new THREE.RenderPass( scene, camera ) );
 
@@ -62,6 +91,7 @@ function render() {
     requestAnimationFrame(render);
     mesh.rotation.x += 0.005;
     mesh.rotation.y += 0.01;
+    controls.update();
 	renderer.render(scene, camera);
 }
 
