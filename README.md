@@ -1,6 +1,9 @@
 # Updates:
 
-## 8/16/18:
+## 8/14/18:
+    * Implemented orbit control and plane geometry.
+
+## 8/12/18:
     * Initialized program layout and began research on WebGL, Three.js, and Perlin/Simplex noise.
 
 ## 6/11/18:
@@ -13,4 +16,5 @@
 	* http://www.pouet.net/prod.php?which=52761
 
 to-do:
-    - create circle geometry and a unique mesh from shaders
+    - Implement simplex noise
+    - Implement audio parameters
